@@ -1,42 +1,78 @@
-# Simple and portable CMake template for raylib
+# RaylibCaster
 
-This is a basic project template for raylib using CMake and has been tested with Visual Studio, Visual Studio Code and CLion.
+RaylibCaster is a simple raycasting engine built using the Raylib library. This project demonstrates basic raycasting techniques to render a 3D view from a 2D grid map. The engine includes features such as player movement, 2D and 3D rendering, and simple UI elements like buttons.
 
-The master branch of the raylib source code is downloaded using CMake FetchContent from github and compiled from source as it is much easier than including prebuilt binaries for every platform and configuration.
+## Features
 
-Building from the cmake file will build both raylib and `src/main.c` which includes a basic example of a raylib program.
+- **2D Grid Map**: A map where each cell represents a wall or empty space.
+- **3D Rendering**: A first-person view generated using raycasting.
+- **Player Movement**: The player can move forward, backward, and rotate.
+- **Simple UI**: Includes buttons and debug information displayed on the screen.
 
-## Asset handling
+## Installation
 
-The example in `src/main.c` uses an example image located in the `assets` folder.
-To load it we use `ASSETS_PATH`, which is a string macro with the *absolute* path "assets" directory.
-This macro is defined in the `CMakeLists.txt` file on line `23`.
- 
-If you plan on releasing or sharing your game consider manually setting the value of the `ASSETS_PATH` macro.
+1. **Clone the Repository**:
+    ```sh
+    git clone https://github.com/yourusername/RaylibCaster.git
+    cd RaylibCaster
+    ```
 
-In C you can concatenate string literals by putting them next to each other, 
-eg: `"A" "B"` is `"AB"`. So ASSETS_PATH `"test.png"` becomes `"/path/to/your/assets/test.png"`
+2. **Install Raylib**:
+    Follow the instructions on the [Raylib GitHub repository](https://github.com/raysan5/raylib) to install Raylib for your operating system.
 
-If you wanna share your game with others you should set ASSETS_PATH to be a *relative* path like "./assets/". You can do this in the CMakeLists.txt file. 
+3. **Compile the Project**:
+    ```sh
+    gcc -o RaylibCaster main.c game.c 2drenderer.c 3drenderer.c button.c -lraylib -lm -ldl -lpthread
+    ```
 
-## Using C++
+4. **Run the Project**:
+    ```sh
+    ./RaylibCaster
+    ```
 
-Using c++ is quite simple, just change these lines in the `CMakeLists.txt`
-from
-```
-project(my_raylib_game C)
+## Usage
 
-set(CMAKE_C_STANDARD 99)
+- **Player Controls**:
+    - `W`: Move forward
+    - `S`: Move backward
+    - `A`: Rotate left
+    - `D`: Rotate right
 
-file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/sources/*.c")
-```
-to
-```
-project(my_raylib_game CXX)
+- **Edit Mode**:
+    - Click the "Edit" button to toggle edit mode.
+    - In edit mode, click on the grid to place walls.
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+## Code Overview
 
-file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/sources/*.cpp")
-```
-After this just reload cmake and it should build fine.
+### main.c
+
+The main entry point of the application. It initializes the window, sets up the game state, and handles the main game loop.
+
+### game.h and game.c
+
+These files define and implement the game state, including player position, map data, and player movement functions.
+
+### 2drenderer.h and 2drenderer.c
+
+These files handle rendering the 2D view of the game, including the grid map, player position, and rays cast from the player's position.
+
+### 3drenderer.h and 3drenderer.c
+
+These files handle rendering the 3D view of the game using raycasting techniques.
+
+### button.h and button.c
+
+These files define and implement simple UI buttons used in the game.
+
+## Contributing
+
+Contributions are welcome! Feel free to open issues or submit pull requests.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Acknowledgements
+
+- Thanks to [Raylib](https://www.raylib.com/) for providing an excellent C library for game development.
+- Raycasting algorithm inspiration from [Lode's Computer Graphics Tutorial](https://lodev.org/cgtutor/raycasting.html).
